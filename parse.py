@@ -1,3 +1,5 @@
+import interpret
+
 def tokenize(expression):
     """
     >>> x ='(lambda (x) x)'
@@ -51,10 +53,13 @@ def categorize_token(token):
             try:
                 token = float(token)
             except ValueError:
-                return {'identifier': token}
-    return {'literal': token}
+                return {'type': 'identifier', 'value': token}
+    return {'type': 'literal', 'value': token}
 
-import doctest
-doctest.testmod()
-#x ='(lambda (x, y) x y)'
-#print tokenize(x)
+#import doctest
+#doctest.testmod()
+x ='((lambda (x) (lambda (y) x) 1) 1)'
+tokenized = parse(tokenize(x))
+print tokenized
+print interpret.interpret(tokenized)
+
